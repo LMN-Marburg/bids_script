@@ -14,11 +14,11 @@ def run(data, bids_folder, anat = True, func = True, fieldmap = True,
         normalized: Should the prenormalized T1 image be used? (bool)
     """
     import os
-    if anat = True:
+    if anat == True:
         anatfolder = input("Folder name of T1 image (without 00X__)")
-    if func = True:
+    if func == True:
         funcfolder = input("Folder name of functional images:")
-    if fieldmap = True:
+    if fieldmap == True:
         fieldmapfolder = input("Folder name of fieldmap images:")
     taskname = input("Name of the fMRI task:")
     subjects = os.listdir(data) #list of subject folders in data folder
@@ -29,14 +29,14 @@ def run(data, bids_folder, anat = True, func = True, fieldmap = True,
         os.chdir(bids_folder)
         os.mkdir(f"sub-{sublabel}")
         os.chdir(f"sub-{sublabel}")
-        if anat = True:
+        if anat == True:
             os.mkdir("anat")
             anatfun(data=data, anatfolder=anatfolder, bids_folder= bids_folder
             sublabel=sublabel, subfolder = sub, bids_subfolder = f"sub-{sublabel}",
             normalized = normalized)
-        if func = True:
+        if func == True:
             os.mkdir("func")
-        if fieldmap = True:
+        if fieldmap == True:
             os.mkdir("fmap")
         # TODO: save old subject names in participants.tsv
 
@@ -51,6 +51,7 @@ def anatfun(data, anatfolder, bids_folder, sublabel, subfolder, bids_subfolder,
     # which folder contains the right T1 image? (normalized or not normalized)
     abs_bids_subfolder = os.path.join(bids_folder, bids_subfolder)
     modalities = os.listdir(abs_bids_subfolder)
+    # go through all anatomical folders
     for mod in modalities:
         # does the string match the anat folder name?
         if anatfolder in mod:
