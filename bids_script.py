@@ -1,23 +1,39 @@
-def run(data, anat = True, func = True, fieldmap = True):
+def run(data, bids_folder, anat = True, func = True, fieldmap = True):
     """
     Creates folders and copies files according to BIDS.
     Arguments:
-        data: path to where the data are stored. The script expects all subfol-
-        ders to be subjects with respective folders for the given modalities.
+        data: absolute path to where the data are stored. The script expects all
+        subfolders to be subjects with respective folders for the given modali-
+        ties (string)
+        bids_folder: absolute path to the folder where the BIDS data will be
+        stored (string)
+        anat: Is there anatomical data (bool)?
+        func: Is there functional data (bool)?
+        fieldmap: Is there fieldmap data (bool)?
     """
-    anatfolder = input("Where is the anatomical data stored?")#texteingabe
+    import os
+    anatfolder = input("")#texteingabe
     funcfolder = #texteingabe
     fieldmapfolder = #texteingabe
-    subjects = #count folders in data folder
+    subjects = os.#count folders in data folder
     for sub, index in zip(subjects, range(len(subjects)):
-        anatfun()
+        if index < 9:
+            sublabel = f"00{index+1}"
+        if index > 8 and index < 99:
+            sublabel = f"0{index+1}"
+        else:
+            sublabel = f"{index+1}"
+
+        anatfun(sub=sublabel)
         funcfun()
         fieldmapfun()
 
-def anatfun(arg):
+def anatfun(anatfolder, sub):
+    import os
+
     pass
 
-def funcfun():
+def funcfun(data):
     pass
 
 def fieldmapfun(arg):
