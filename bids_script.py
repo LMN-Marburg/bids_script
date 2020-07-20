@@ -1,4 +1,4 @@
-def run(data, bids_folder, anat = True, func = True, fieldmap = True):
+def run(data, bids_folder, anat = True, func = True, fieldmap = True, normalized = True):
     """
     Creates folders and copies files according to BIDS.
     Arguments:
@@ -12,31 +12,42 @@ def run(data, bids_folder, anat = True, func = True, fieldmap = True):
         fieldmap: Is there fieldmap data (bool)?
     """
     import os
-    anatfolder = input("")#texteingabe
-    funcfolder = #texteingabe
-    fieldmapfolder = #texteingabe
-    subjects = os.listdir(data)#list of subject folders in data folder
+    if anat = True:
+        anatfolder = input("Folder name of T1 image:")
+    if func = True:
+        funcfolder = input("Folder name of functional images:")
+    if fieldmap = True:
+        fieldmapfolder = input("Folder name of fieldmap images:")
+    taskname = input("Name of the fMRI task:")
+    subjects = os.listdir(data) #list of subject folders in data folder
+
     for sub, index in zip(subjects, range(len(subjects)):
         sublabel = "{:03d}".format(index+1)
+        # create folders for existing modalities
         os.chdir(bids_folder)
         os.mkdir(f"sub-{sublabel}")
         os.chdir(f"sub-{sublabel}")
         if anat = True:
             os.mkdir("anat")
+            anatfun(data=data, anatfolder=anatfolder, bids_folder= bids_folder, sublabel=sublabel,
+                    subfolder = sub, bids_subfolder = f"sub-{sublabel}")
         if func = True:
             os.mkdir("func")
         if fieldmap = True:
             os.mkdir("fmap")
         # TODO: save old subject names in participants.tsv
 
-        anatfun(anatfolder=anatfolder, bids_folder= bids_folder, sublabel=sublabel,
-                subfolder = sub)
         funcfun()
         fieldmapfun()
 
-def anatfun(anatfolder, bids_folder, sublabel, subfolder):
+def anatfun(data, anatfolder, bids_folder, sublabel, subfolder, bids_subfolder):
     import os
-    os.chdir()
+    import shutil
+    # copy and rename T1-image
+    source = os.path.join(data, subfolder, anatfolder)
+    target = os.path.join(bids_folder, bids_subfolder, anat, f"sub-{sublabel}_T1w.nii")
+    shutil.copy(source, target)
+
     pass
 
 def funcfun(data):
