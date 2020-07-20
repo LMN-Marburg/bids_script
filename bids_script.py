@@ -15,7 +15,7 @@ def run(data, bids_folder, anat = True, func = True, fieldmap = True):
     anatfolder = input("")#texteingabe
     funcfolder = #texteingabe
     fieldmapfolder = #texteingabe
-    subjects = os.#count folders in data folder
+    subjects = os.listdir()#count folders in data folder
     for sub, index in zip(subjects, range(len(subjects)):
         if index < 9:
             sublabel = f"00{index+1}"
@@ -24,13 +24,14 @@ def run(data, bids_folder, anat = True, func = True, fieldmap = True):
         else:
             sublabel = f"{index+1}"
 
-        anatfun(sub=sublabel)
+        anatfun(anatfolder=anatfolder, bids_folder= bids_folder, sub=sublabel,
+                subfolder = sub)
         funcfun()
         fieldmapfun()
 
-def anatfun(anatfolder, sub):
+def anatfun(anatfolder, bids_folder, sub, subfolder):
     import os
-
+    os.chdir()
     pass
 
 def funcfun(data):
