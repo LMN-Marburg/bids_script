@@ -15,20 +15,26 @@ def run(data, bids_folder, anat = True, func = True, fieldmap = True):
     anatfolder = input("")#texteingabe
     funcfolder = #texteingabe
     fieldmapfolder = #texteingabe
-<<<<<<< HEAD
-    subjects = os.listdir()#count folders in data folder
-=======
     subjects = os.listdir(data)#list of subject folders in data folder
->>>>>>> d3ab2d5ba4407a5008aef5da97e195b6699a0e6a
     for sub, index in zip(subjects, range(len(subjects)):
         sublabel = "{:03d}".format(index+1)
+        os.chdir(bids_folder)
+        os.mkdir(f"sub-{sublabel}")
+        os.chdir(f"sub-{sublabel}")
+        if anat = True:
+            os.mkdir("anat")
+        if func = True:
+            os.mkdir("func")
+        if fieldmap = True:
+            os.mkdir("fmap")
+        # TODO: save old subject names in participants.tsv
 
-        anatfun(anatfolder=anatfolder, bids_folder= bids_folder, sub=sublabel,
+        anatfun(anatfolder=anatfolder, bids_folder= bids_folder, sublabel=sublabel,
                 subfolder = sub)
         funcfun()
         fieldmapfun()
 
-def anatfun(anatfolder, bids_folder, sub, subfolder):
+def anatfun(anatfolder, bids_folder, sublabel, subfolder):
     import os
     os.chdir()
     pass
