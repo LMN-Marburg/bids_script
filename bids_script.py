@@ -9,7 +9,7 @@ def run(data, anat = True, func = True, fieldmap = True):
     funcfolder = #texteingabe
     fieldmapfolder = #texteingabe
     subjects = #count folders in data folder
-    for sub in subjects:
+    for sub, index in zip(subjects, range(len(subjects)):
         anatfun()
         funcfun()
         fieldmapfun()
