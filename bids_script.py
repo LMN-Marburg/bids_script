@@ -23,7 +23,7 @@ def run(data, bids_folder, anat = True, func = True, fieldmap = True,
     taskname = input("Name of the fMRI task:")
     subjects = os.listdir(data) #list of subject folders in data folder
 
-    for sub, index in zip(subjects, range(len(subjects)):
+    for sub, index in zip(subjects, range(len(subjects))):
         sublabel = "{:03d}".format(index+1)
         # create folders for existing modalities
         os.chdir(bids_folder)
@@ -31,7 +31,7 @@ def run(data, bids_folder, anat = True, func = True, fieldmap = True,
         os.chdir(f"sub-{sublabel}")
         if anat == True:
             os.mkdir("anat")
-            anatfun(data=data, anatfolder=anatfolder, bids_folder= bids_folder
+            anatfun(data=data, anatfolder=anatfolder, bids_folder= bids_folder,
             sublabel=sublabel, subfolder = sub, bids_subfolder = f"sub-{sublabel}",
             normalized = normalized)
         if func == True:
