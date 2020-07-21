@@ -90,8 +90,12 @@ def run(data, bids_folder, anat, func, fieldmap, normalized, task):
         os.chdir(bids_folder)
         # if os.path.exists(os.path.join(bids_folder, f"sub-{sublabel}")) == False:
         #     print(os.path.join(bids_folder, f"sub-{sublabel}"))
-        os.mkdir(f"sub-{sublabel}")
-        os.chdir(f"sub-{sublabel}")
+        try:
+            os.mkdir(f"sub-{sublabel}")
+            os.chdir(f"sub-{sublabel}")
+        except FileExistsError:
+            print(f"Data for subject {sublabel} already exists")
+            continue
         if anatexists == True:
             os.mkdir("anat")
             anatfun(data=data, anatfolder=anat, bids_folder= bids_folder,
