@@ -9,37 +9,42 @@ from argparse import ArgumentParser
 def anatfun(data, anatfolder, bids_folder, sublabel, subfolder, bids_subfolder,
             normalized):
     # which folder contains the right T1 image? (normalized or not normalized)
-    abs_bids_subfolder = os.path.join(bids_folder, bids_subfolder)
-    modalities = os.listdir(abs_bids_subfolder)
+    modalities = os.listdir(os.path.join(data, subfolder))
     # go through all anatomical folders
     for mod in modalities:
         # does the string match the anat folder name?
         if anatfolder in mod:
             # change working directory to this folder
-            os.chdir(os.path.join(abs_bids_subfolder, mod))
-            print(os.getcwd())
+            os.chdir(os.path.join(data, subfolder, mod))
             # open json file
             with open("bids.json") as json_file:
                 metadata = json.load(json_file)
-            print(metadata["ImageType"])
             # does list ImageType contain "NORM?"
             if normalized == True:
                 if metadata["ImageType"][-1] == "NORM":
-                    #sourcefolder = mod
+                    sourcefolder = mod
                     print("Normalized image found")
             else:
                 if metadata["ImageType"][-1] != "NORM":
                     print("Unnormalized image found")
-                    #sourcefolder = mod
+                    sourcefolder = mod
+    # find the nii file
+    anatfiles = os.listdir(os.path.join(data, subfolder, mod))
+    sourcefile = None
+    for f in anatfiles:
+        if ".nii" in f:
+            sourcefile = f
+    if sourcefile == None:
+        raise FileNotFoundError("No .nii file found")
+    #copy and rename T1-image
+
+    source = os.path.join(data, subfolder, mod, sourcefile)
+    target = os.path.join(bids_folder, bids_subfolder, "anat",
+                         f"sub-{sublabel}_T1w.nii")
+    print(f"Copying T1 image of subject {sublabel}")
+    shutil.copy(source, target)
+
     return(None)
-
-
-
-    # copy and rename T1-image
-    #source = os.path.join(data, subfolder, sourcefolder)
-    #target = os.path.join(bids_folder, bids_subfolder, anat,
-#                          f"sub-{sublabel}_T1w.nii")
-    #shutil.copy(source, target)
 
 
 def funcfun(data):
@@ -99,7 +104,7 @@ def run(data, bids_folder, anat, func, fieldmap, normalized, task):
             os.mkdir("fmap")
             fieldmapfun()
         # TODO: save old subject names in participants.tsv
-        return(None)
+    return(None)
 
 
 def main():
