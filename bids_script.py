@@ -54,6 +54,8 @@ def funcfun(data):
 def fieldmapfun(arg):
     pass
 
+def participantsfile(arg):
+    pass
 
 def run(data, bids_folder, anat, func, fieldmap, normalized, task):
     """
