@@ -71,7 +71,7 @@ def run(data, bids_folder, anat, func, fieldmap, normalized, task):
     if func != None:
         funcexists = True
     else:
-        anatexists = False
+        funcexists = False
     if fieldmap != None:
         fieldmapexists = True
     else:
@@ -83,9 +83,9 @@ def run(data, bids_folder, anat, func, fieldmap, normalized, task):
         sublabel = "{:03d}".format(index+1)
         # create folders for existing modalities
         os.chdir(bids_folder)
-        if os.path.exists(os.path.join(bids_folder, f"sub-{sublabel}")) == False:
-            print(os.path.join(bids_folder, f"sub-{sublabel}"))
-            #os.mkdir(f"sub-{sublabel}")
+        # if os.path.exists(os.path.join(bids_folder, f"sub-{sublabel}")) == False:
+        #     print(os.path.join(bids_folder, f"sub-{sublabel}"))
+        os.mkdir(f"sub-{sublabel}")
         os.chdir(f"sub-{sublabel}")
         if anatexists == True:
             os.mkdir("anat")
@@ -94,12 +94,12 @@ def run(data, bids_folder, anat, func, fieldmap, normalized, task):
             normalized = normalized)
         if funcexists == True:
             os.mkdir("func")
+            funcfun()
         if fieldmapexists == True:
             os.mkdir("fmap")
+            fieldmapfun()
         # TODO: save old subject names in participants.tsv
-
-        funcfun()
-        fieldmapfun()
+        return(None)
 
 
 def main():
@@ -126,7 +126,7 @@ def main():
     args = parser.parse_args()
 
     run(data=args.data, bids_folder=args.bids_folder, anat = args.anat, func =
-    args.func, fieldmap = args.fieldmap, normalized = args.normal,
+    args.func, fieldmap = args.fmap, normalized = args.normal,
     task = args.task)
     return(None)
 
