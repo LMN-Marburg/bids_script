@@ -3,6 +3,7 @@
 import os
 import shutil
 import json
+import csv
 from argparse import ArgumentParser
 
 
@@ -84,14 +85,19 @@ def run(data, bids_folder, anat, func, fieldmap, normalized, task):
     else:
         fieldmapexists = False
 
+    csvfile = open(f'{bids_folder}/participants.tsv', 'w')
+    fieldnames = ['participant_id', 'server_id']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter='\t')
+    writer.writeheader()
+
     subjects = os.listdir(data) #list of subject folders in data folder
 
     for sub, index in zip(subjects, range(len(subjects))):
         sublabel = "{:03d}".format(index+1)
         # create folders for existing modalities
         os.chdir(bids_folder)
-        # if os.path.exists(os.path.join(bids_folder, f"sub-{sublabel}")) == False:
-        #     print(os.path.join(bids_folder, f"sub-{sublabel}"))
+        # Save subject id and old subject names in participants.tsv
+        writer.writerow({'participant_id': f'sub-{sublabel}', 'server_id': sub})
         try:
             os.mkdir(f"sub-{sublabel}")
             os.chdir(f"sub-{sublabel}")
@@ -100,16 +106,17 @@ def run(data, bids_folder, anat, func, fieldmap, normalized, task):
             continue
         if anatexists == True:
             os.mkdir("anat")
-            anatfun(data=data, anatfolder=anat, bids_folder= bids_folder,
-            sublabel=sublabel, subfolder = sub, bids_subfolder = f"sub-{sublabel}",
-            normalized = normalized)
+            anatfun(data=data, anatfolder=anat, bids_folder=bids_folder,
+            sublabel=sublabel, subfolder=sub, bids_subfolder=f"sub-{sublabel}",
+            normalized=normalized)
         if funcexists == True:
             os.mkdir("func")
             funcfun()
         if fieldmapexists == True:
             os.mkdir("fmap")
             fieldmapfun()
-        # TODO: save old subject names in participants.tsv
+
+    csvfile.close()
     return(None)
 
 
